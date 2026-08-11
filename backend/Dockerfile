@@ -15,7 +15,10 @@ RUN pip install --no-cache-dir -r requirements.txt
 COPY . .
 
 RUN mkdir -p /app/uploads
+RUN chmod +x start.sh
 
+# Render (and most PaaS free tiers) assign the port dynamically via $PORT -
+# don't hardcode 8000 in the CMD, read it at runtime instead (see start.sh).
 EXPOSE 8000
 
-CMD ["uvicorn", "app.main:app", "--host", "0.0.0.0", "--port", "8000"]
+CMD ["./start.sh"]
