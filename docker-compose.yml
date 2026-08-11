@@ -29,6 +29,10 @@ services:
 
   backend:
     build: ./backend
+    # Local dev keeps backend and worker as separate containers (clearer
+    # logs). The combined start.sh is only used when deploying to a
+    # single free Render Web Service.
+    command: uvicorn app.main:app --host 0.0.0.0 --port 8000
     env_file: .env
     environment:
       DATABASE_URL: postgresql://${POSTGRES_USER:-media_user}:${POSTGRES_PASSWORD:-change_me}@postgres:5432/${POSTGRES_DB:-media_pipeline}
